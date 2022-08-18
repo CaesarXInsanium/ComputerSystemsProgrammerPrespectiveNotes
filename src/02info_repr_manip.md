@@ -121,6 +121,112 @@ data types are fixed regardless of implementation.
 
 ### Addressing and Byte Ordering
 
+Items are stored in continuous chunks of memory. Each individual byte can be addressed
+and resolved by taking the size of an object and calculating from the address.
+
+Little Indian is when least significant bit is stored first in memory while big
+Indian is when the most significant bit is stored first.
+
+```text
+0b1000 = 1 in little endian
+0b1000 = 8 in big endian
+```
+
+This concept can also be applied to bytes, as some machines implement things this
+way. Intel machines use little endian mode while big endian is used by IBM. Ordering
+can also depend on the operating system and hardware support. There is generally
+no difference between them except when machine communicate over network. However,
+network protocols establish rules on byte ordering.
+
+Byte ordering can be important when using assembly to deal directly with binary
+and addresses.
+
+Here is code that shows byte representation of things.
+
+```c
+#include <stdio.h>
+
+typedef unsigned char *byte_pointer;
+
+void show_bytes(byte_pointer start, size_t len) {
+  int i;
+  for (i = 0; i < len; i++) {
+    printf(" %.2x\n", start[i]);
+  }
+}
+void show_int(int x) { show_bytes((byte_pointer)(void *)&x, sizeof(int)); }
+void show_float(float x) { show_bytes((byte_pointer)&x, sizeof(float)); }
+void show_pointer(void *x) { show_bytes((byte_pointer)&x, sizeof(void *)); }
+
+void text_show_bytes(int val) {
+  int ival = val;
+  float fval = (float)ival;
+  int *pval = &ival;
+  show_int(ival);
+  show_float(fval);
+  show_pointer(pval);
+}
+
+int main(void) {
+  text_show_bytes(100);
+  return 0;
+}
+```
+
+Here are my results
+
+```text
+ 64
+ 00
+ 00
+ 00
+ 00
+ 00
+ c8
+ 42
+ c8
+ c3
+ b1
+ a3
+ fe
+ 7f
+ 00
+ 00
+```
+
+The story changes yet again with floating point numbers. Floats are a standard that
+is kept the same all across the world, usually.
+
+#### Practice Problem 2.5
+
+```text
+A. 78 12
+B. 7856 1234
+C. 785634 123456
+```
+
+#### Practice Problem 2.6
+
+
+```text
+int = 0x0027c8f8
+float = 0x4a1f23e0
+A. 
+int   = 00000000 00100111 11001000 11111000
+float = 01001010 00011111 00100011 11100000
+
+B. they basically do not match. 18 bits match
+C. 32 - 18 = 14, 14 bits do not match
+```
+
+### Representing Strings
+
+Strings are simply arrays of characters ending in null character. These characters
+follow a standard for which each byte or sequence of bytes represent a character
+in a language.
+
+#### Practice Problem 2.7
+
 ## Integer Representation
 
 ## Integer Arithmetic
