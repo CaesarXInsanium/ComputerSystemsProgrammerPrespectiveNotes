@@ -227,6 +227,10 @@ in a language.
 
 #### Practice Problem 2.7
 
+```text
+ 6d 6e 6f 70 71 72
+```
+
 ## Integer Representation
 
 ## Integer Arithmetic

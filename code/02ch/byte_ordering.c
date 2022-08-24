@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 typedef unsigned char *byte_pointer;
 
@@ -31,6 +32,10 @@ int main(void) {
   show_bytes(ap, 1);
   show_bytes(ap, 2);
   show_bytes(ap, 3);
+
+  printf("\n2.7\n");
+  const char *m = "mnopqr";
+  show_bytes((byte_pointer) m, strlen(m));
 
   return 0;
 }
