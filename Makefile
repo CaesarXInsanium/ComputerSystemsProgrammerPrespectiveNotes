@@ -56,5 +56,3 @@ serve:
 
 clean:
 	rm -rf $(PANDOC_BUILD_DIR)
-
-

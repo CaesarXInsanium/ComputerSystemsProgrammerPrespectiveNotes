@@ -207,7 +207,6 @@ C. 785634 123456
 
 #### Practice Problem 2.6
 
-
 ```text
 int = 0x0027c8f8
 float = 0x4a1f23e0
@@ -230,6 +229,120 @@ in a language.
 ```text
  6d 6e 6f 70 71 72
 ```
+
+### Representing Code
+
+When C code is compiled, binary data is always generated. However, this data is special
+since is representing instructions for things for the computer to do. Different machines
+required different encoding and standards in order for the CPU to understand anything.
+
+### Introduction to Boolean Algebra
+
+Since computer are built on one's and zeroes, binary data it makes sense that all
+logic that is run on a computer are built on the foundations of boolean algebra.
+
+Boolean algebra is defined over any two element set with the operations `NOT`, `OR`,
+`XOR` and `AND`. I already know most of the basics. Boolean operations can be extended
+to boolean vectors or arrays of bits, bytes. Here is an example,
+
+One way to use this to our advantage is to encode information inside individual
+bits that are in a byte. This method allows for squeezing as much information
+as possible into a little area as possible.
+
+```text
+  0110
+& 1100
+------
+  0100
+```
+
+### A bit Level Operations in C
+
+In C the data type that is meant to be used for bitwise operations is `char`.
+
+`Bit masking` is when a bit pattern is used to extract and read values from selected
+bits inside a machine word. Doing AND operations would allow one to make an interface
+where certain flags can be turned on if certain bit values are switched one.
+
+### Logical Operators in C
+
+Logical operators in C `&&`, `||`, `!` Allow for use in logical operations. Any
+non-zero argument resolves to TRUE and zero is false. Applying double NOT will return
+0x01.
+
+### Shift Operators
+
+Shift bits a certain number of places and replacing lost bits with zeroes.
+
+Logical bit right shift replaces lost bits with zeroes.
+
+Arithmetic bit right shift replaces lost bits with zeroes. This only happens on
+signed data and in some C implementations as the standard does not define this behavior.
+
+#### Practice Problems Boolean Algebra
+
+```text
+exe 2.8
+a  = 0b01001110
+b  = 0b11100001
+-a = 0b10110001
+-b = 0b00011110
+a & b = 0b01000000
+a | b = 0b11101111
+a ^ b = 0b10101111
+
+exe 2,9
+white
+green
+blue
+
+exe 2.10
+x = 8  =  0b00001000
+y = 10 =  0b00001010
+
+y = x ^ y = 0b00000010
+x = x ^ y = 0b00001010
+y = x ^ y = 0b00001000
+
+```
+
+Exercise 2.11 my work.
+
+```c
+{{#include ../code/02ch/reverse_array.c}}
+```
+
+Exercise 2.12
+
+```c
+{{#include ../code/02ch/reverse_array.c}}
+```
+
+I cheated on 2.13
+
+Exercise 2.14
+
+```text
+a = 0x55 = 01010101
+b = 0x46 = 01000110
+a & b = 01000100
+a | b = 01010111
+~a | ~b = 10110011
+a & !b = 00000000
+a && b = 00000001
+a || b = 00000001
+!a || !b = 00000000
+a && ~b = 00000001
+```
+
+ Exercise 2.16
+
+| Hex | Binary | Bin | Hex | Bin  | Hex | Bin | Hex |
+|-----|--------|-----|-----|------|-----|-----|-----|
+| 0xd4 | 10110100 | 11010000 | 0xd0 | 00010110 | 0x16 | 11110110 | 0xf6 |  
+| 0x64 | 01100100 | 10010000 | 0xa0 | 00001100 | 0x0c | 11101100 | 0xec |
+| 0x72 | 01110010 | 11001000 | 0xc8 | 00001110 | 0x0e | 11101110 | 0xee |
+| 0x44 | 01000100 | 00010000 | 0x10 | 00001000 | 0x08 | 11101000 | 0xe8 |
 
 ## Integer Representation
 
