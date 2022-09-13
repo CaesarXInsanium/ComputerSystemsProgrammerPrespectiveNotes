@@ -346,8 +346,81 @@ a && ~b = 00000001
 
 > Note: first row is all wrong!!
 
-
 ## Integer Representation
+
+There are two major ways to represent integers. Both of which have properties that
+allow for easy manipulation using discrete mathematics and hardware encoding. There
+are a variety of different function that can be applied to integers. Here are some
+examples,
+
+- binary two's complement
+- binary to unsigned
+- minimum two's complement
+
+### Integral Data Types
+
+C standard allows for the different basic data types to be represented in whichever
+which way best suits a particular target and implementation. Programmer will be
+able to choose from a variety of simple data types that can be signed or unsigned.
+
+Signed integers can represent negative numbers and unsigned integers cannot represent
+negative values. The range of a signed integer equal to unsigned but is only half
+in one direction.
+
+- char: -128 127
+- unsigned char: 0 255
+
+The implementation allows for differences in behaviors between 32 bit and 64 bit
+machines. One such important difference is the value range of signed and unsigned
+values.
+
+### Unsigned Encoding
+
+If we consider a set of *w* bits, we can denote them in a mathematical setting.
+Then the Binary to Unsigned function is the sum of the individual bits times 2 to
+the power of its corresponding index. This function takes a set of bits and converts
+them to its decimal representation. This way only positive numbers are represented.
+
+$$
+B2U_w (\overrightarrow{x}) \doteq \sum_{i=0}^{w-1}x_i 2^i
+$$
+
+Here the index is counted from the right most position. \\(x_i \\) denotes the
+individual bit, which can be 0 or 1. Using this formula conversions are easy.
+
+```text
+B2U(0001) = 0 * 2^3 + 0 * 2^1 + 0 * 2^1 + 1 * 2^0 = 0 + 0 + 0 + 1 = 1
+B2U(0101) = 0 * 2^3 + 1 * 2^1 + 0 * 2^1 + 1 * 2^0 = 0 + 4 + 0 + 1 = 5
+B2U(0001) = 1 * 2^3 + 0 * 2^1 + 1 * 2^1 + 1 * 2^0 = 8 + 0 + 2 + 1 = 11
+B2U(0001) = 1 * 2^3 + 1 * 2^1 + 1 * 2^1 + 1 * 2^0 = 8 + 4 + 2 + 1 = 15
+```
+
+### Two's Complement Encoding
+
+Sometimes negative numbers are useful. For that we have two's complement encoding.
+This is defined as having most significant bit as having negative weight. We have
+the definition of two's complement as this for vector
+\\(\overrightarrow{v}=\[x_{w-1}, x_{w-2}, ..., x_0\] \\)
+
+$$
+B2T_w(\overrightarrow{x}) \doteq -x_{w-1}2^{w-1} + \sum_{i=0}^{w-2}x_i 2^i )
+$$
+
+The most significant bit is also called the sign bit. This means that this thing
+is multiplied against negative value of its own position that is then added to the
+following values represented by the following bits. Here are some examples.
+
+```text
+B2T_4([0001]) = -0 * 2^3 + 0 * 2^2 + 0 + 2^1 + 1 * 2^0 = 0 + 0 + 0 + 1 = 1
+B2T_4([0101]) = -0 * 2^3 + 1 * 2^2 + 0 + 2^1 + 1 * 2^0 = 0 + 0 + 4 + 1 = 5
+B2T_4([1011]) = -1 * 2^3 + 0 * 2^2 + 1 + 2^1 + 1 * 2^0 = -8 + 0 + 2 + 1 = -5
+B2T_4([1111]) = -1 * 2^3 + 1 * 2^2 + 1 + 2^1 + 1 * 2^0 = -8 + 4 + 0 + 1 = -1
+```
+
+Due to some unique properties of math with binary numbers, these two function
+are the inverse of each other.
+
+#### 2.2 Exercises
 
 ## Integer Arithmetic
 

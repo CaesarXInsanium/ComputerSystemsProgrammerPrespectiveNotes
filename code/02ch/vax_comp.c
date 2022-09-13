@@ -1,4 +1,5 @@
 #include "useful.h"
+
 inline int bis(int x, int m) { return x | m; }
 inline int bic(int x, int m) { return x & ~m; }
 
