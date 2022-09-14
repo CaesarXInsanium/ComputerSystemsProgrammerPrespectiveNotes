@@ -420,7 +420,107 @@ B2T_4([1111]) = -1 * 2^3 + 1 * 2^2 + 1 + 2^1 + 1 * 2^0 = -8 + 4 + 0 + 1 = -1
 Due to some unique properties of math with binary numbers, these two function
 are the inverse of each other.
 
-#### 2.2 Exercises
+The range of values that can be represented of signed integers vs unsigned is not
+symmetrical. This is due to the nature of having one bit being the sign bit. It is
+more of a sign weight, this one bit represents a negative weight. And zero itself
+has to represented, so there is one greater positive value as opposed to negative
+value.
+
+```text
+# here word size is 16
+-1 = 0xffff = 1111111111111111
+ 0 = 0x000  = 0000000000000000
+```
+
+Two's complement is not required but nearly all C implementations use it. A good
+assumption to make is assuming that the ranges in values for the different data types
+different between implementations and plan around this in order to maximize portability
+between architectures. C has some macros that contain different ranges of values.
+
+```c
+#include <limits.h>
+```
+
+### Conversions between Signed and Unsigned
+
+Conversions between data types can different based on the implementation in C.
+Most what usually happens is that C takes the bits of a data type and reads them
+as another type. This only happens in conversions from between signed and unsigned
+data.
+
+Function for converting from two's complement to unsigned is defined as
+
+$$
+T2U_w (x) = \text{if }x < 0, x + w^2 ,  \text{else if }   x \ge 0, x
+$$
+
+function for unsigned to two's complement
+
+$$
+U2T_w(u) = \text{if } u \le TMax_w, u, \text{else if } u >TMax_w, u - 2^w
+$$
+
+### Signed versus Unsigned in C
+
+By default, we're specifying an integer literal, the compiler assumes that it is
+a signed integer unless formatted otherwise. C standard defines what conversions
+between data types should result in but not how. Conversion can be explicit or implicit.
+`Printf` format specifiers are also capable of calling conversion for data types.
+When operations between signed and unsigned data is done, the signed data type is
+cast to unsigned before anything happens.
+
+### Expanding Bit Representation of Number
+
+
+
+### 2.2 Exercises
+
+```text
+2.17
+0xA 1010 (2^3 + 2^1 = 10) (-2^3 + 2^1 = -6)
+0x1 0001 (2^0 = 1) (2^0 = 1)
+0x2 0010 (2^1 = 2) (2^1 = 2)
+0x7 0111 (2^2 + 2^1 + 2^0 = 7) (2^2 + 2^1 + 2^0 = 7)
+0xC 1100 (2^3 + 2^2 = 12) (-2^3 + 2^2 = -4)
+
+2.18
+0010 1110 0000 = 736
+0101 1000, 8 + 16 + 64 = -88
+0010 1000 = 40
+0011 0000 = 48
+0111 1000 = 120
+1000 1000 = 136
+0001 1111 1000 = 504
+1100 0000 = -64
+- 0100 1000
+
+2.19
+-1 -> 1111 -> 15
+-5 -> 1011 -> 11
+-6 -> 1010 -> 10
+-4 -> 1100 -> 12
+1  -> 0001 -> 1
+8  -> 1000 -> 8
+
+2.20
+
+I used by converting the hex to binary and then back to unsigned values, ignoring
+the signe bit by adding the correct value for each bit.
+
+2.21 # This is most likely wrong, it is wrong
+
+0
+1
+1
+1
+1
+```
+
+Check my code at
+
+```c
+{{#include ../code/02ch/bit32.c}}
+```
 
 ## Integer Arithmetic
 

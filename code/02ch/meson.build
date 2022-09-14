@@ -25,3 +25,10 @@ executable(
   link_with: [useful],
   include_directories: [INC],
 )
+
+executable(
+  'bit32',
+  'bit32.c',
+  link_with: [useful],
+  include_directories: [INC],
+)
