@@ -16,5 +16,5 @@ int main() {
   int s = 8;
   int h = 100;
   int g = bool_or(s, h);
-  print_bytes((byte_pointer)&g, sizeof(int));
+  show_bytes((byte_pointer)&g, sizeof(int));
 }

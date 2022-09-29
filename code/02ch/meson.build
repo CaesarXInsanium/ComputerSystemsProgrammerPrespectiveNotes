@@ -32,3 +32,24 @@ executable(
   link_with: [useful],
   include_directories: [INC],
 )
+
+executable(
+  'expanding_bit',
+  'expanding_bit.c',
+  link_with: [useful],
+  include_directories: [INC],
+)
+
+executable(
+  'signed_vs_unsigned',
+  'signed_vs_unsigned.c',
+  link_with: [useful],
+  include_directories: [INC],
+)
+
+executable(
+  'integer_arithmetic',
+  'integer_arithmetic.c',
+  link_with: [useful],
+  include_directories: [INC],
+)

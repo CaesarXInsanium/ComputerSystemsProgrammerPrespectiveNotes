@@ -4,7 +4,6 @@ project(
   version : '0.1',
   default_options: [
     'warning_level=3',
-    'werror=true',
     'buildtype=debugoptimized',
     'debug=true',
     #'optimization=3',

@@ -5,7 +5,7 @@
 typedef unsigned char *byte_pointer;
 
 // print to standard out the binary data in hex
-void print_bytes(byte_pointer start, size_t len);
+void show_bytes(byte_pointer start, size_t len);
 // prints to standard out values in integer array
 void print_array(int a[], int cnt);
 

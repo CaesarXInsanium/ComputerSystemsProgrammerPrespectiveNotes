@@ -471,7 +471,33 @@ cast to unsigned before anything happens.
 
 ### Expanding Bit Representation of Number
 
+One of the most common operations done on integers in converting them from 32 bit
+to 64 bit or any word size. Doing so can either increase the number of possible
+values that can be represented, or it can decrease it.
 
+Expanding unsigned integers is easy as adding leading zeroes.
+
+```text
+0001 -> 00000001
+```
+
+Expanding two's complement signed integer requires sign extension. Thing is the
+same when dealing with positive number but when dealing with negative numbers, the
+sign bit remains turned on however other bits must also be turned on in order to
+compensate. One interesting thing that I have seen is that two's complement a bit
+of expansion adds leading ones, if the value being represented is close to 0.
+
+### Truncating Numbers
+
+Reducing the number of bits of a value reduces the range of value that a set of
+bits can represent. Truncating a number from a position that cannot be represented
+in a form with fewer bits results in a form of overflow.
+
+### Advice on Signed vs Unsigned
+
+Overlooking casting behavior of the compiler and spec can lead to difficulty in
+finding some nasty bugs. Due to this some languages do not implement unsigned
+integers and Java enforces the two's complement implementation of integers.
 
 ### 2.2 Exercises
 
@@ -522,6 +548,172 @@ Check my code at
 {{#include ../code/02ch/bit32.c}}
 ```
 
+```text
+2.22
+10101010110101010010101010101010
+00101010000000000000000000000000
+00000000000000000000000000101010
+
+it drops the leading 24 bits
+```
+
+Here is code fore 2.23 A
+
+```c
+{{#include ../code/02ch/expanding_bit.c:25:69 }}
+```
+
+It prints this out
+
+```text
+a = 118:         76 00 00 00
+fun1:  76 00 00 00
+fun2:  76 00 00 00
+
+b = 2271560481:  21 43 65 87
+fun1:  21 00 00 00
+fun2:  21 00 00 00
+
+c = 201:         c9 00 00 00
+fun1:  c9 00 00 00
+fun2:  c9 ff ff ff
+
+d = 3989547399:  87 a9 cb ed
+fun1:  87 00 00 00
+fun2:  87 ff ff ff
+```
+
+One useful thing that it does is it allows use to get a value stored only in the
+first 24 bits of a data type. Ignoring everything else for the first function. For
+the second function.
+
+In exercise 2.25 the error occurs because we are using a signed value that can
+represent negative values. It crashes because it is accessing memory that does not
+belong to the float array and my operating system detects that.
+
+Exercise 2.26: In one case the former string could actually be less than the latter
+string. The function return unsigned values negative lies cannot be represented
+and an overflow occurs. It may be fixed with this code.
+
+```c
+#include <stdint.h>
+
+
+size_t strlen(const char *s);
+int strlonger(char *s, char *t) {
+  return strlen(s) >
+         strlen(t); // I will just let the implementation fix it for me.
+}
+```
+
 ## Integer Arithmetic
+
+Due to the way computers work adding two numbers does not lead to the mathematically
+correct answer.
+
+### Unsigned Addition
+
+It is a general rule of thumb that if two integers using *w* number of bits to
+represent them require *w + 1* bits in order to fully represent the range of values
+that can result from their addition. If we add 2 4 bit unsigned integers it requires
+5 bits to represent the result of any addition.
+
+Instead, a form of modular Arithmetic is used in which a modulo operation is used
+mathematically instead of normal addition.
+
+For example given integers 8 and 11. Both require minimum 4 bits to represent them.
+Due to the way that computers can work the result of adding the two integers
+would be the same as this example.
+
+$$
+(8 + 11 ) \mod 16 = 3
+$$
+
+```text
+1000 + 1011 = 10011
+drop most significant bit
+0011 = 3
+this is what integer overflow is
+```
+
+Here we take the result of normal addition and drop the most significant bit in
+order to get a result.
+
+As such unsigned addition is defined mathematically as
+
+$$
+x + y = \text{if } x + y < 2^w \text{ then } x+y
+\text{ else } x + y - 2^w
+$$
+
+It is important to know that integer overflow is part of the C specification and
+as such is not treated as an error. However, many bugs and security vulnerabilities
+can result due integer overflow.
+
+One method of checking for overflow is seeing if one the result of an addition
+is less than one of the arguments. If so then an overflow as occurred and appropriate
+measures can be taken. For example is *x* and *y* are two arguments for addition
+and *s* is the result, then overflow as occurred if,
+
+$$
+s = x + (y - 2^w) < x
+$$
+
+Here *w* denotes the number of bits used to represent the numbers.
+
+In order to get a number that is the additive inverse of a number just subtract
+from the integer maximum the number in question. The additive inverse of a number
+is simply the number that when added together will result in an integer overflow
+to zero.
+
+### Two's Complement Addition
+
+Two's complement addition is very similar to normal unsigned addition except that
+now negative overflow exists. Overflow occurs in the positive and negative extremes
+of the range that a signed integer has. I would write this out in latex, but I will
+rather not instead I will write it in python
+
+```python
+def add(x, y):
+    w = 8  # number of bits
+    if pow(2, w-1) <= x + y:
+        return x + y - pow(2, w)
+    elif (-pow(2, w-1) <= x + y) and (x + y < pow(2, w-1)):
+        return x + y
+    elif x + y < -pow(2, w-1):
+        return x+y+pow(2, w)
+```
+
+Now I write it in scheme because why the fuck not. I did it because python
+is boring and lisp is fun.
+
+```lisp
+(define (pow a b)
+  ((cond ((= b 0) 1)
+         ((= b 1) a)
+         (else (* a (pow a (- b 1)))))))
+
+(define w 8)
+(define (add x y)
+  (cond
+    ((<= (+ x y) (pow 2 (- w 1))) (+ x (- y (pow 2 w)))) ;; positive overflow
+    ((< (+ x y) (- 0 (pow 2 (- w 1)))) (+ x (+ y (pow 2 w)))) ;; negative overflow
+    (else (+ x y))
+        ))
+```
+
+### Integer Arithmetic Practice Problems
+
+2.27
+
+```c
+{{#include ../code/02ch/integer_arithmetic.c}}
+```
+
+2.28
+
+|Hex | Decimal | Inverse Decimal | Inverse Hex|
+|-----|---------|----------------|------------|
+| 1   | 1       | 15             | f |
 
 ## Floating Point
