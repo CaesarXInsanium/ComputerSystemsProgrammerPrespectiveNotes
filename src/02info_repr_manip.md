@@ -685,21 +685,21 @@ def add(x, y):
 ```
 
 Now I write it in scheme because why the fuck not. I did it because python
-is boring and lisp is fun.
+is boring and scheme is fun.
 
-```lisp
+```scheme
 (define (pow a b)
-  ((cond ((= b 0) 1)
+  (cond ((<= b 0) 1)
          ((= b 1) a)
-         (else (* a (pow a (- b 1)))))))
+         ((< b 0) 0)
+         (else (* a (pow a (- b 1))))))
 
-(define w 8)
 (define (add x y)
+  (define w 8)
   (cond
-    ((<= (+ x y) (pow 2 (- w 1))) (+ x (- y (pow 2 w)))) ;; positive overflow
+    ((>= (+ x y)(pow 2 (- w 1))) (+ x (- y (pow 2 w)))) ;; positive overflow
     ((< (+ x y) (- 0 (pow 2 (- w 1)))) (+ x (+ y (pow 2 w)))) ;; negative overflow
-    (else (+ x y))
-        ))
+    (else (+ x y))))
 ```
 
 ### Integer Arithmetic Practice Problems
