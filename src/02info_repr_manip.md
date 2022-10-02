@@ -702,6 +702,14 @@ is boring and scheme is fun.
     (else (+ x y))))
 ```
 
+Due to some wacky properties of signed integer addition, the bit representations
+of signed numbers can be added by simply interpreting them as unsigned integers
+and applying unsigned addition. Addition can also be done by using normal binary
+addition and truncating bits.
+
+An interesting property is that there are more cases with negative overflow than
+positive overflow with signed integer addition.
+
 ### Integer Arithmetic Practice Problems
 
 2.27
