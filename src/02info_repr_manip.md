@@ -710,6 +710,94 @@ addition and truncating bits.
 An interesting property is that there are more cases with negative overflow than
 positive overflow with signed integer addition.
 
+### Two's Complement Negation
+
+Each signed and unsigned integer number has an additive inverse that when added
+will overflow and result in zero. For signed integers it is simply the negative
+versions of them and if it is equal to the minimum value possible then it is itself.
+As can be seen with this function.
+
+```lisp
+(define (tneg x)
+  (cond ((= x tmin) x)
+        ((> x tmin) (- 0 x))))
+```
+
+An easy way to do it on the bit level is to do bitwise NOT on the bits and then
+increment by one.
+
+```text
+0101 5 1010 -6 10011 -5
+```
+
+### Unsigned Multiplication
+
+Some say that multiplication is simply repeated addition. Unsigne multiplication
+is defined as,
+
+```lisp
+(define (unsigned_mul x y)
+  (mod (* x y) (pow 2 w)))
+```
+
+This is because the multiplication ranges even greater than addition and would require
+twice as many bits each time to represent them.
+
+### Two's Complement Multiplication
+
+Signed integer multiplication requires as many bits as unsigned. It basically only
+is first interpreting the signed integers are unsigned, applying unsigned multiplication
+and then reinterpreting the bits as signed. At all times not using more bits than
+what the original types used.
+
+### Multiplying by Constants
+
+Normal multiplication instructions on a CPU where slow because the implementation
+required multiple clock cycles whereas addition and subtraction was fast since
+it only required one clock cycle. So attempts where made to speed up multiplication
+using a combination of addition and bit shifts.
+
+Bit shift operations where the bits move by value *k* are equivalent to multiplication
+and division by powers of 2 to the *k*. This only works if k is greater than zero
+and less than the number of bit used to represent the integers.
+
+```c
+#include <math.h>
+#include <assert.h>
+
+int main(){
+  unsigned k = 1;
+  unsigned a = x * pow(2,k);
+  unsigned b = x << k;
+  assert(a == b); // two expression are equivalent
+  
+}
+```
+
+Compilers will try to replace normal multiplication instruction calls to bit shifting
+call when it is trying to optimize the machine code.
+
+Of course one must be careful because multiplication is an operation very easily
+causes overflow if dealing with big enough numbers. C compiler developers must know
+math and can recognize some patterns.
+
+```text
+14 * x is the same as  x * (2^3 + 2^2 + 2^1)
+it can be rewritten as (x * 2^3 + x * 2^2 + x * 2^1)
+the compiler will then optimize to
+(x << 3) + (x << 2) + (x << 1)
+```
+
+However, this is a decision that is very architecture and compiler dependent.
+
+### Dividing by Powers of Two
+
+Basically the same as multiplication by powers of 2 except we are bit shifting to
+the right instead of left. However, this time the result is the ceiling of the true
+mathematical operation. It cuts of the fractional part and returns only an integer.
+
+Compilers optimize this fact away and is fun.
+
 ### Integer Arithmetic Practice Problems
 
 2.27
@@ -723,5 +811,8 @@ positive overflow with signed integer addition.
 |Hex | Decimal | Inverse Decimal | Inverse Hex|
 |-----|---------|----------------|------------|
 | 1   | 1       | 15             | f |
+
+2.31. The code is bad because it does not take into consideration that some numbers
+may be negative of some time the values of the variables maybe zero.
 
 ## Floating Point
