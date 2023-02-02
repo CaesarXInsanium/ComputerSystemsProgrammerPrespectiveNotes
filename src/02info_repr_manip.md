@@ -796,7 +796,8 @@ Basically the same as multiplication by powers of 2 except we are bit shifting t
 the right instead of left. However, this time the result is the ceiling of the true
 mathematical operation. It cuts of the fractional part and returns only an integer.
 
-Compilers optimize this fact away and is fun.
+Compilers optimize this fact away and is fun. With unsigned integers' division is
+performed with logical bit shifts and with signed integers it is performed arithmetically.
 
 ### Integer Arithmetic Practice Problems
 
@@ -816,3 +817,37 @@ Compilers optimize this fact away and is fun.
 may be negative of some time the values of the variables maybe zero.
 
 ## Floating Point
+
+Floating points numbers are used for encoding very large or very accurate numbers.
+However, it can lose precision in doing so. Before IEEE standards floating point
+numbers implemented by every computer manufacturer differently with emphasis on
+speed and simplicity over accuracy. Now with the IEEE standard ruling everything
+programmer can be sure that any computer that support IEEE standards can have
+code that treats decimal numbers evenly.
+
+There are many problems with floating point numbers including rounding and mathematical
+inconsistency.
+
+### Fractional Binary Numbers
+
+In order to understand fractional binary number one must understand fractional decimal
+numbers. Each place in a decimal numbers represent a base value multiplied by 10
+to some power. Going left we raised to positive numbers. However, going right
+with raise 10 to negative numbers. The same be applied with fractional binary numbers.
+
+$$
+d = \sum_{i=-n}^m (10^i * d_i)
+$$
+
+Here this is a sum given a set of digits \\( d_1, d_2, d_2, ... , d_i \\) where
+each digit represents a number from 0 to 9. Each is multiplied against a corresponding
+power to 10. This can in the negative.
+
+Here is the binary equivalent.
+
+$$
+b = \sum_{i=-n}^m (2^i * b_i)
+$$
+
+Another limitation of floating point numbers is that they can only represent a small
+subset of the real number line. All other are approximations.
