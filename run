@@ -1,0 +1,4 @@
+#! /bin/env fish
+
+set result (echo $argv | sed 's/\.[^.]*$//')
+gcc -Wall $argv -o $result && ./$result
