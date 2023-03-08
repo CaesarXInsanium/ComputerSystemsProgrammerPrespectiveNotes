@@ -8,5 +8,3 @@ This section will look into
 - processers
 - memory layout
 - how to use such knowledge to improve performance
-
-\pagebreak

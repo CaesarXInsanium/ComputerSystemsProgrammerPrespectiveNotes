@@ -36,68 +36,6 @@ be easily converted to hex.
 
 Make a convention chart.
 
-#### Practice Problem 2.1
-
-A. 0x25b9d2
-
-```text
-0010 0101 1011 1001 1101 0010
-```
-
-B. 1010 1110 0100 1001
-
-```text
-0xAE4
-```
-
-C. 0xa8b3d
-
-```text
-1010 1000 1011 0011 1101
-```
-
-D. 0110 0100 0101 1011 0001 0110
-
-```text
-0x645b16
-```
-
-#### Practice Problems 2.2
-
-|n | 2^n | 2^n hex |
-|--|-----|---------|
-| 5| 32 | 0x20 |
-|23|8388608| 0x800000|
-|15 | 32768 | 0x8000 |
-| 17 | 131072 | 0x2000 |
-| 16 | 65536 | 0x1000 |
-| 6 | 64 | 0x40 |
-| 3 | 4096 | 0x100 |
-
-#### Practice Problem 2.3
-
-| Decimal | Binary | Hexadecimal |
-|---------|--------|-------------|
-| 0    |0b00000000 | 0x00        |
-| 148 | 10011110     | 0x9e    |
-| 76 | 10011000   | 0x4c   |
-| 145 | 10010001 | 0x91 |
-| 174 | 1010 1110 | 0xae |
-| 60 | 0011 1100 | 0x3c |
-| 241 | 1111 0001 | 0xf1 |
-| 117| 0111 0101 | 0x75 |
-| 189 | 1011 1101 | 0xbd |
-| 245 | 1111 0101 | 0xf5 |
-
-#### Practice 2.4
-
-```text
-A. 0x6061
-B. 0x603c
-C. 0x608c
-D. 0x009e
-```
-
 ### Data Sizes
 
 All computers have a word size, the size of a single memory address/pointer.
@@ -197,38 +135,11 @@ Here are my results
 The story changes yet again with floating point numbers. Floats are a standard that
 is kept the same all across the world, usually.
 
-#### Practice Problem 2.5
-
-```text
-A. 78 12
-B. 7856 1234
-C. 785634 123456
-```
-
-#### Practice Problem 2.6
-
-```text
-int = 0x0027c8f8
-float = 0x4a1f23e0
-A. 
-int   = 00000000 00100111 11001000 11111000
-float = 01001010 00011111 00100011 11100000
-
-B. they basically do not match. 18 bits match
-C. 32 - 18 = 14, 14 bits do not match
-```
-
 ### Representing Strings
 
 Strings are simply arrays of characters ending in null character. These characters
 follow a standard for which each byte or sequence of bytes represent a character
 in a language.
-
-#### Practice Problem 2.7
-
-```text
- 6d 6e 6f 70 71 72
-```
 
 ### Representing Code
 
@@ -278,73 +189,6 @@ Logical bit right shift replaces lost bits with zeroes.
 
 Arithmetic bit right shift replaces lost bits with zeroes. This only happens on
 signed data and in some C implementations as the standard does not define this behavior.
-
-#### Practice Problems Boolean Algebra
-
-```text
-exe 2.8
-a  = 0b01001110
-b  = 0b11100001
--a = 0b10110001
--b = 0b00011110
-a & b = 0b01000000
-a | b = 0b11101111
-a ^ b = 0b10101111
-
-exe 2,9
-white
-green
-blue
-
-exe 2.10
-x = 8  =  0b00001000
-y = 10 =  0b00001010
-
-y = x ^ y = 0b00000010
-x = x ^ y = 0b00001010
-y = x ^ y = 0b00001000
-
-```
-
-Exercise 2.11 my work.
-
-```c
-{{#include ../code/02ch/reverse_array.c}}
-```
-
-Exercise 2.12
-
-```c
-{{#include ../code/02ch/reverse_array.c}}
-```
-
-I cheated on 2.13
-
-Exercise 2.14
-
-```text
-a = 0x55 = 01010101
-b = 0x46 = 01000110
-a & b = 01000100
-a | b = 01010111
-~a | ~b = 10110011
-a & !b = 00000000
-a && b = 00000001
-a || b = 00000001
-!a || !b = 00000000
-a && ~b = 00000001
-```
-
- Exercise 2.16
-
-| Hex | Binary | Bin | Hex | Bin  | Hex | Bin | Hex |
-|-----|--------|-----|-----|------|-----|-----|-----|
-| 0xd4 | 11010100 | 01010000 | 0x50 | 00011110 | 0x16 | 11110110 | 0xf6 |  
-| 0x64 | 01100100 | 10010000 | 0x90 | 00001100 | 0x0c | 11101100 | 0xec |
-| 0x72 | 01110010 | 11001000 | 0xc8 | 00001110 | 0x0e | 11101110 | 0xee |
-| 0x44 | 01000100 | 00010000 | 0x10 | 00001000 | 0x08 | 11101000 | 0xe8 |
-
-> Note: first row is all wrong!!
 
 ## Integer Representation
 
@@ -499,101 +343,9 @@ Overlooking casting behavior of the compiler and spec can lead to difficulty in
 finding some nasty bugs. Due to this some languages do not implement unsigned
 integers and Java enforces the two's complement implementation of integers.
 
-### 2.2 Exercises
-
-```text
-2.17
-0xA 1010 (2^3 + 2^1 = 10) (-2^3 + 2^1 = -6)
-0x1 0001 (2^0 = 1) (2^0 = 1)
-0x2 0010 (2^1 = 2) (2^1 = 2)
-0x7 0111 (2^2 + 2^1 + 2^0 = 7) (2^2 + 2^1 + 2^0 = 7)
-0xC 1100 (2^3 + 2^2 = 12) (-2^3 + 2^2 = -4)
-
-2.18
-0010 1110 0000 = 736
-0101 1000, 8 + 16 + 64 = -88
-0010 1000 = 40
-0011 0000 = 48
-0111 1000 = 120
-1000 1000 = 136
-0001 1111 1000 = 504
-1100 0000 = -64
-- 0100 1000
-
-2.19
--1 -> 1111 -> 15
--5 -> 1011 -> 11
--6 -> 1010 -> 10
--4 -> 1100 -> 12
-1  -> 0001 -> 1
-8  -> 1000 -> 8
-
-2.20
-
-I used by converting the hex to binary and then back to unsigned values, ignoring
-the signe bit by adding the correct value for each bit.
-
-2.21 # This is most likely wrong, it is wrong
-
-0
-1
-1
-1
-1
-```
-
-Check my code at
-
-```c
-{{#include ../code/02ch/bit32.c}}
-```
-
-```text
-2.22
-10101010110101010010101010101010
-00101010000000000000000000000000
-00000000000000000000000000101010
-
-it drops the leading 24 bits
-```
-
-Here is code fore 2.23 A
-
-```c
-{{#include ../code/02ch/expanding_bit.c:25:69 }}
-```
-
-It prints this out
-
-```text
-a = 118:         76 00 00 00
-fun1:  76 00 00 00
-fun2:  76 00 00 00
-
-b = 2271560481:  21 43 65 87
-fun1:  21 00 00 00
-fun2:  21 00 00 00
-
-c = 201:         c9 00 00 00
-fun1:  c9 00 00 00
-fun2:  c9 ff ff ff
-
-d = 3989547399:  87 a9 cb ed
-fun1:  87 00 00 00
-fun2:  87 ff ff ff
-```
-
 One useful thing that it does is it allows use to get a value stored only in the
 first 24 bits of a data type. Ignoring everything else for the first function. For
 the second function.
-
-In exercise 2.25 the error occurs because we are using a signed value that can
-represent negative values. It crashes because it is accessing memory that does not
-belong to the float array and my operating system detects that.
-
-Exercise 2.26: In one case the former string could actually be less than the latter
-string. The function return unsigned values negative lies cannot be represented
-and an overflow occurs. It may be fixed with this code.
 
 ```c
 #include <stdint.h>
@@ -671,21 +423,7 @@ to zero.
 Two's complement addition is very similar to normal unsigned addition except that
 now negative overflow exists. Overflow occurs in the positive and negative extremes
 of the range that a signed integer has. I would write this out in latex, but I will
-rather not instead I will write it in python
-
-```python
-def add(x, y):
-    w = 8  # number of bits
-    if pow(2, w-1) <= x + y:
-        return x + y - pow(2, w)
-    elif (-pow(2, w-1) <= x + y) and (x + y < pow(2, w-1)):
-        return x + y
-    elif x + y < -pow(2, w-1):
-        return x+y+pow(2, w)
-```
-
-Now I write it in scheme because why the fuck not. I did it because python
-is boring and scheme is fun.
+rather not instead I will write it in scheme.
 
 ```scheme
 (define (pow a b)
@@ -717,7 +455,7 @@ will overflow and result in zero. For signed integers it is simply the negative
 versions of them and if it is equal to the minimum value possible then it is itself.
 As can be seen with this function.
 
-```lisp
+```scheme
 (define (tneg x)
   (cond ((= x tmin) x)
         ((> x tmin) (- 0 x))))
@@ -732,10 +470,10 @@ increment by one.
 
 ### Unsigned Multiplication
 
-Some say that multiplication is simply repeated addition. Unsigne multiplication
+Some say that multiplication is simply repeated addition. Unsigned multiplication
 is defined as,
 
-```lisp
+```scheme
 (define (unsigned_mul x y)
   (mod (* x y) (pow 2 w)))
 ```
@@ -799,23 +537,6 @@ mathematical operation. It cuts of the fractional part and returns only an integ
 Compilers optimize this fact away and is fun. With unsigned integers' division is
 performed with logical bit shifts and with signed integers it is performed arithmetically.
 
-### Integer Arithmetic Practice Problems
-
-2.27
-
-```c
-{{#include ../code/02ch/integer_arithmetic.c}}
-```
-
-2.28
-
-|Hex | Decimal | Inverse Decimal | Inverse Hex|
-|-----|---------|----------------|------------|
-| 1   | 1       | 15             | f |
-
-2.31. The code is bad because it does not take into consideration that some numbers
-may be negative of some time the values of the variables maybe zero.
-
 ## Floating Point
 
 Floating points numbers are used for encoding very large or very accurate numbers.
@@ -851,3 +572,37 @@ $$
 
 Another limitation of floating point numbers is that they can only represent a small
 subset of the real number line. All other are approximations.
+
+### IEEE Floating-Point Representation
+
+IEEE standard denotes floating point number in of form
+
+```scheme
+(define (float s m e)
+  (* (pow -1 s)
+     m
+     (pow 2 e)))
+```
+
+Where s is the bit sign denoting positive or negative, m is the fractional binary
+number between zero and 1 minus epsilon. Exponent e denotes the weight. These are
+packed into a 32 or 64 bit a bit of data that have different sections based on what
+information they contain.
+
+In cases where the exponent section of the floating point number is neither all zeroes
+nor all ones, then it is used to represent the signed value of the exponent. The
+fractional sections represent values from 0 to 1, exclusive to 1. If the exponent
+part is all ones it represents infinity if the fractional part of all zeroes.
+NaN occurs when the exponent part is all ones and fractional part is not all
+zeroes.
+
+```text
+s1111111100000000000000000000000 # infinity
+s1111111100001010100101001010001 # NaN
+```
+
+Denormalized values occur when exponent field is all zeroes. These values are used
+either represent zero or numbers that are very close to zero.
+
+Not a number of values are resulted when finding the square root of negative one
+and adding and subtracting infinity.
