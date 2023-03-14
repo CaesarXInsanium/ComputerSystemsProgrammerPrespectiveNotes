@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 // run commnand
-// gcc -Og -o prog main.c mstore.c
+// gcc -Og -S -o prog main.c mstore.c
 void multstore(long, long, long *);
 int main(void){
   long d;
