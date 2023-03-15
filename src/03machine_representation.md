@@ -1,7 +1,7 @@
 # Machine Level Representation of programs
 
-We see a review on what computrerts do. Computer work by executing machine code
-instructions and applying them on data. Machine code is data and a is generated
+We see a review on what computers do. Computer work by executing machine code
+instructions and applying them on data. Machine code is data and an is generated
 from a source file using a compiler. In C this process goes as follows
 
 1. Text file, source
@@ -56,7 +56,6 @@ Generally C code is simply an abstraction over the concept of using human-readab
 text that can also be used to generate machine code for machines to understand.
 GCC stands for GNU Compiler Collection, but it used to stand for GNU C Compiler.
 Generally a C compiler is comprised several stages.
-
 
 The preprocessor first goes over the source code, makes some changes to source
 according to the directives and will also if passed multiple source files
@@ -208,3 +207,18 @@ main:
 ```
 
 ## 3.3 Data Formats
+
+Different machine architectures can have different word sizes. Intel specifies
+that words are 16 bit values. Machine words correspond to the architecture
+of a CPU, 32 bit machines have machine words that are 32 bits long and vice
+versa for 64 bit machines. Pointers themselves are the size of machine
+words on their corresponding architecture.
+
+Intel assembly can have operand size qualifiers on instructions that relate
+to word size, of which there are words, double word and quad word for some
+reason.
+
+Floating point values can be single or double precision and relate to the machine
+word.
+
+## 3.4 Accessing Information
