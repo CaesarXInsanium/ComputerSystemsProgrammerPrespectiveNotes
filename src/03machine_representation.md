@@ -222,3 +222,58 @@ Floating point values can be single or double precision and relate to the machin
 word.
 
 ## 3.4 Accessing Information
+
+x86_64 processors contain 16 registers that can contains quad words. In those
+registers smaller subsections can be indexed like double words, words and bytes.
+Using Intel terminalogy a word is a 16 bit value, and as such those indexed values
+are individual registers that are embedded inside of the largest register. Conventions
+and the way that procedures are called dictate how the registers should be used and
+how the procedure expect the data in the registers to be laid out.
+
+These registers contain function parameters, local variables, return values, a stack
+pointer, and teporary values.
+
+### 3.4.1 Operand Specifiers
+
+Instructions that are passed with registers contain relevant data that is to be worked
+with. Targets can be other registers, memory. Immediate values are constants inside
+of the assembly code that are used when computing the memory address of certain values
+or for arithmetic. Memory is seen by the CPU as a very large array of bytes and it is
+up to the compiler to generate correct assembly that interprets that memory as correct
+data for computing and doing stuff. In order to access items in memory the correct
+address must be computed and accessed.
+
+Registers can be accessed wholely or just smaller section of them. 
+
+### 3.4.2 Data Movement Instructions
+
+The most common assembly instruction is the `mov` command that moves values between different
+locations. Between register and to and from memory. There are different classes of the
+`mov` command that moves to different location and moves different sized values to different
+size locations.
+
+If the value is smaller than destination there are commands that will padd out the wasted
+with zeroes or will padd with other values. While some movement commands have dedicated
+instructions, other can be accomplised with multipled instructions.
+
+In C code, the act of dereferancing to and from pointers are actions that deal with moving
+the values store in the registers and writing values to addresses that were stored in the
+registers.
+ 
+Pointers in C are all just memory addresses.
+
+### 3.4.4 Pushing and Popping Stack Data
+
+In assembly the program stack is just an array of bytes that hold the address that
+represent the data stack. First the values are the end are filled up until we reach
+the beginning of the stack.
+
+Dedicated instructions are used for the program stack, a command that will do the
+work of two very specific instructions.
+
+Pushing a value will decrement the program stack pointer by 8 and write function
+pointer to stack. Popping will write the top of the stack to specified register
+and increment the stack pointer by 8.
+
+This implies that the memory that is held by the program itself can be accessed
+in assembly using the stack pointer.
