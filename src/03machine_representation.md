@@ -180,30 +180,30 @@ And here is the resulting assembly code. It is output in the AT&T format. The sp
 prefixed with a dot are directives meant for the assembler.
 
 ```x86asm
-	.file	"hello.c"
-	.text
-	.section	.rodata.str1.1,"aMS",@progbits,1
+ .file "hello.c"
+ .text
+ .section .rodata.str1.1,"aMS",@progbits,1
 .LC0:
-	.string	"Hello World!"
-	.text
-	.globl	main
-	.type	main, @function
+ .string "Hello World!"
+ .text
+ .globl main
+ .type main, @function
 main:
 .LFB11:
-	.cfi_startproc
-	subq	$8, %rsp
-	.cfi_def_cfa_offset 16
-	leaq	.LC0(%rip), %rdi
-	call	puts@PLT
-	movl	$0, %eax
-	addq	$8, %rsp
-	.cfi_def_cfa_offset 8
-	ret
-	.cfi_endproc
+ .cfi_startproc
+ subq $8, %rsp
+ .cfi_def_cfa_offset 16
+ leaq .LC0(%rip), %rdi
+ call puts@PLT
+ movl $0, %eax
+ addq $8, %rsp
+ .cfi_def_cfa_offset 8
+ ret
+ .cfi_endproc
 .LFE11:
-	.size	main, .-main
-	.ident	"GCC: (GNU) 12.2.1 20230201"
-	.section	.note.GNU-stack,"",@progbits
+ .size main, .-main
+ .ident "GCC: (GNU) 12.2.1 20230201"
+ .section .note.GNU-stack,"",@progbits
 ```
 
 ## 3.3 Data Formats
@@ -225,42 +225,41 @@ word.
 
 x86_64 processors contain 16 registers that can contains quad words. In those
 registers smaller subsections can be indexed like double words, words and bytes.
-Using Intel terminalogy a word is a 16 bit value, and as such those indexed values
-are individual registers that are embedded inside of the largest register. Conventions
+Using Intel terminology a word is a 16 bit value, and as such those indexed values
+are individual registers that are embedded inside the largest register. Conventions
 and the way that procedures are called dictate how the registers should be used and
 how the procedure expect the data in the registers to be laid out.
 
 These registers contain function parameters, local variables, return values, a stack
-pointer, and teporary values.
+pointer, and temporary values.
 
 ### 3.4.1 Operand Specifiers
 
 Instructions that are passed with registers contain relevant data that is to be worked
 with. Targets can be other registers, memory. Immediate values are constants inside
-of the assembly code that are used when computing the memory address of certain values
-or for arithmetic. Memory is seen by the CPU as a very large array of bytes and it is
-up to the compiler to generate correct assembly that interprets that memory as correct
-data for computing and doing stuff. In order to access items in memory the correct
-address must be computed and accessed.
+the assembly code that are used when computing the memory address of certain values
+or for arithmetic. Memory is seen by the CPU as a very large array of bytes, and
+it is up to the compiler to generate correct assembly that interprets that memory
+as correct data for computing and doing stuff. In order to access items in memory
+the correct address must be computed and accessed.
 
-Registers can be accessed wholely or just smaller section of them. 
+Registers can be accessed wholly or just smaller section of them.
 
 ### 3.4.2 Data Movement Instructions
 
-The most common assembly instruction is the `mov` command that moves values between different
-locations. Between register and to and from memory. There are different classes of the
-`mov` command that moves to different location and moves different sized values to different
-size locations.
+The most common assembly instruction is the `mov` command that moves values between
+different locations. Between register and to and from memory. There are different
+classes of the
+`mov` command that moves to different location and moves different sized values
+to different size locations.
 
-If the value is smaller than destination there are commands that will padd out the wasted
-with zeroes or will padd with other values. While some movement commands have dedicated
-instructions, other can be accomplised with multipled instructions.
+If the value is smaller than destination there are commands that will pad out the
+wasted with zeroes or will pad with other values. While some movement commands
+have dedicated instructions, others can be accomplished with multiple instructions.
 
-In C code, the act of dereferancing to and from pointers are actions that deal with moving
-the values store in the registers and writing values to addresses that were stored in the
-registers.
- 
-Pointers in C are all just memory addresses.
+In C code, the act of dereferencing to and from pointers are actions that deal
+with moving the values store in the registers and writing values to addresses
+that were stored in the registers. Pointers in C are all just memory addresses.
 
 ### 3.4.4 Pushing and Popping Stack Data
 
@@ -277,3 +276,5 @@ and increment the stack pointer by 8.
 
 This implies that the memory that is held by the program itself can be accessed
 in assembly using the stack pointer.
+
+## 3.5 Arithmetic and Logical Operators
