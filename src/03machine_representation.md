@@ -1,7 +1,7 @@
 # Machine Level Representation of programs
 
 We see a review on what computers do. Computer work by executing machine code
-instructions and applying them on data. Machine code is data and an is generated
+instructions and applying them on data. Machine code is data and is generated
 from a source file using a compiler. In C this process goes as follows
 
 1. Text file, source
@@ -278,3 +278,44 @@ This implies that the memory that is held by the program itself can be accessed
 in assembly using the stack pointer.
 
 ## 3.5 Arithmetic and Logical Operators
+
+There are many assembly instructions that are of different classes but
+each class sort of does the same sort of thing but with different word input and
+output sizes. Within this we have binary operations that work on two operands and
+there are unary operations which work on one operand.
+
+### 3.5.1 Load Effective Address
+
+`leaq` instruction is a form of `movq` like instruction that will read a value
+from a memory address and stick it inside a register. Essentially store the
+address in target register. Used in simple arithmetic.
+
+### 3.5.2 Unary and Binary Operations
+
+Unary operations store a single operand and perform changes to it. The result will
+be written back into the provided register.
+
+Binary operations will perform action using the value of the first provided register
+and the value of the second register and store the result in the second register.
+
+### 3.5.3 Shift Operators
+
+Will shift the bits of value in register by the amount provided. Includes logical
+and arithmetic options. Different versions of the shift the bits a different number
+of times.
+
+### 3.5.4 Discussion
+
+Right shifting behaviors sometimes need to use the two's complement for representing
+integer values. Round instructions are sometimes used for arithmetic in assembly.
+
+### 3.5.5 Special Arithmetic Operations
+
+Special arithmetic operations must be used when multiplying integer values since
+result can be a value greater than what the bits can represent. `IMUL` instruction
+will take two 64 bit operands truncate the result. `MULQ` will do the same with but
+using 128 bits for the result. However, such behavior is not expected by C standard
+and certain flags must be used when compiling programs that do this.
+
+
+## 3.6 Control
