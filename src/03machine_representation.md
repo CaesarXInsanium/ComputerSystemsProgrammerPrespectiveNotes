@@ -317,5 +317,4 @@ will take two 64 bit operands truncate the result. `MULQ` will do the same with 
 using 128 bits for the result. However, such behavior is not expected by C standard
 and certain flags must be used when compiling programs that do this.
 
-
 ## 3.6 Control
