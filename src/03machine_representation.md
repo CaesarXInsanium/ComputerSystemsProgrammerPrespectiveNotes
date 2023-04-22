@@ -440,3 +440,89 @@ GCC also provides extensions that allow for creation of code and function pointe
 and arbitrary jumping.
 
 ## 3.7 Procedures
+
+A procedure is a set of computations or instructions that are to be used repeatedly
+in code with guarantees that it will always repeat the same set of steps. When a
+procedure is called the `program counter` will be updated with the address of
+the procedure that is being currently executed. Data also has to flow from the
+caller to the callee in the form of specially prepared register values and
+also return values from the procedure in the form of a register.
+
+x86_64 assembly contains instructions for calling procedures and returning from
+procedure calls
+
+### 3.7.1 The Runtime Stack
+
+When a procedure is called, the program counter is updated and the memory required
+for a procedure to do its computations is allocated on the stack. Such data can be
+stored in the registers or in memory.
+
+A stack counter is a pointer to the stack memory. When a procedure is called, the
+pointer the higher end of the address space. In order to allocate memory for a new
+procedure's call stack the pointer is decremented to the correct amount. Upon
+terminating the pointer is again incremented to previous value.
+
+The memory allocated for a procedure's local variable is known as a `stack frame`.
+
+Allocating space on the stack is only required if the amount of space to hold the
+values is more than what the registers can hold. `Lead procedures` are those that
+only required the space provided by registers.
+
+When a procedure is about to be called, by another procedure, the caller most
+have previously allocated sufficient space on its stack in order to store all
+the arguments that are going to be passed to the callee.
+
+### 3.7.2 Control Transfer
+
+When a procedure is called, the stack allocated for it must contain the return
+address on where to resume execution. The `CALL` instruction is used to do this
+in assembling with the label of the procedure being called. The linker is responsible
+for finding the address of procedure being called. The `RET` will reverse it and
+update the stack pointer and resume instructions at the correct location in
+memory.
+
+### 3.7.3 Data Transfer
+
+When calling procedures there must exist methods for passing data to and from
+procedure being called. This is done via placing the correct arguments in the correct
+registers and location in stack memory. The registers allow for 16 different machine
+words to be passed to procedure and if that is not enough then arguments
+are passed inside the memory build area.
+
+In order for a procedure to make the correct computation the correct arguments
+must be placed in the correct locations.
+
+### 3.7.4 Local Storage on the Stack
+
+Memory space is required for when the 16 registers are enough to represent the
+required data such as
+
+- more than 6 machine word sized variables
+- addresses of values are required
+- more complicated data structures are used
+
+Space is allocated on the stack to represent these values on the stack.
+
+### 3.7.5 Local Storage in Registers
+
+Registers are a shards common resource in which different registers must be
+able to use. Data integrity is important, so a set of conventions must be followed
+so that data is not corrupted when calling and returning from procedures
+
+- RBX, RBP, R12-R15 are callee saved registers, their values must be preserved
+  or restored when a procedure terminates execution
+- RSP is the stack pointer registers and must be maintained when calling and
+  returning from procedures
+- all other registers are caller saved registers, which means they can be modified
+  and overwritten as please in order to do computations
+
+### 3.7.6 Recursive Procedures
+
+If such convention is upheld, then recursive procedures are possible, this
+can early be achieved with a compiler for a high level language and proper
+adhesion to the conventions.
+
+The values at registers are properly maintained, and stack space can always
+be allocated again for a procedure to call itself.
+
+## 3.7 Array Allocation and Access
