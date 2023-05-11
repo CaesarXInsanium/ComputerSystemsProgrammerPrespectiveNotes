@@ -526,3 +526,21 @@ The values at registers are properly maintained, and stack space can always
 be allocated again for a procedure to call itself.
 
 ## 3.7 Array Allocation and Access
+
+Arrays are continous regions of memory in which a homogenous set of data is stored
+and represented. Individual elements can be accessed using and index which can then
+be used to calculate the address of using pointer arithmetic.
+
+### 3.8.1 Basic Principles
+
+When an array is instantiated, memory space mustr be allocated in sufficient
+room for elements that are to be stored. This can be done in the allocation of
+stack or explicitly with heaph memory. Unique element addresses are to be calculated
+using the start address, the size of each element and alignment, and the index of
+element that is is to be read.
+
+### 3.8.2 Pointer Arithmetic
+
+To dereferance a pointer can mean to copy its values to registers or to write to the
+memory specified by a pointer. Pointer arithmetic is using in order to to manage
+pointer to elements in the arrays.
