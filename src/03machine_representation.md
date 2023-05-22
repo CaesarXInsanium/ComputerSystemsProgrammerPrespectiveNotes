@@ -527,20 +527,54 @@ be allocated again for a procedure to call itself.
 
 ## 3.7 Array Allocation and Access
 
-Arrays are continous regions of memory in which a homogenous set of data is stored
+Arrays are continuous regions of memory in which a homogenous set of data is stored
 and represented. Individual elements can be accessed using and index which can then
 be used to calculate the address of using pointer arithmetic.
 
 ### 3.8.1 Basic Principles
 
-When an array is instantiated, memory space mustr be allocated in sufficient
+When an array is instantiated, memory space must be allocated in sufficient
 room for elements that are to be stored. This can be done in the allocation of
-stack or explicitly with heaph memory. Unique element addresses are to be calculated
+stack or explicitly with heap memory. Unique element addresses are to be calculated
 using the start address, the size of each element and alignment, and the index of
-element that is is to be read.
+element that is to be read.
 
 ### 3.8.2 Pointer Arithmetic
 
-To dereferance a pointer can mean to copy its values to registers or to write to the
-memory specified by a pointer. Pointer arithmetic is using in order to to manage
+To dereference a pointer can mean to copy its values to registers or to write to
+the memory specified by a pointer. Pointer arithmetic is using in order to manage
 pointer to elements in the arrays.
+
+### 3.8.3 Nested Arrays
+
+In C99 it is possible to define arrays of arrays, multidimensional vectors or matrices.
+
+```c
+// declare array with 5 elements, each element is an array of 3 integers
+int a[3][5];
+```
+
+The address of the individual elements can be calculated by taking the size of
+each element, whether it is an integer or an array of 3 integers and multiplying
+by the relevant index plus the starting position of the entire thing and boom.
+
+### 3.8.4 Fixed Sized Arrays
+
+The compiler is capable of generating optimizations for fixed sized arrays.
+This is done by recognizing common patterns and then replacing those
+patterns with more optimized things.
+
+When working with arrays in assembly it can be helpful to set marker variables
+keep track of where on the array the control flow is currently focusing on.
+
+### 3.8.5 Variable Sized Arrays
+
+C code can either allocate sufficient memory for an array on the stack or on
+the heap. Stack memory is allocated on procedure startup and is sufficient to
+fold the values of variables that the programmer declares. Heap allocated stuff
+are memory that a program and request from OS if stack memory is not enough or
+memory required can only be known at runtime.
+
+Some calls to `malloc` can be optimized if the value passed to the function are
+constant values known at compile time. It is all about patterns that the compiler
+can be programmed to recognize.
