@@ -578,3 +578,68 @@ memory required can only be known at runtime.
 Some calls to `malloc` can be optimized if the value passed to the function are
 constant values known at compile time. It is all about patterns that the compiler
 can be programmed to recognize.
+
+## 3.9 Heterogeneous Data Structures
+
+C allows for different data types to express different groupings of data in a struct.
+However, a union allows for a set region of memory to be *interpreted* in the set
+manner of different ways, IE a block of memory can be both a float, an int and
+a set of for bits.
+
+```c
+typedef union {
+  int32_t integer;
+  float floating_point;
+  struct {
+    uint8_t a;
+    uint8_t b;
+    uint8_t c;
+    uint8_t d;
+  };
+} UnsafeUnion;
+```
+
+### 3.1.1 Structures
+
+Grouping data into logical groupings that can be referenced by name and address offset
+is an ability that allows for complex operations to be more easily expressed.
+Access to individual members of a structure can be done the same way as an array,
+the compiler calculates the size of the structure and generate offsets for accessing
+the different parts of the structure. If arrays are embedded inside a structure
+the whole array is a part of the structure.
+
+C allows for embedding pointers, arrays and other structures inside one structure.
+Recursive data structures can only be achieved with pointers.
+
+### 3.9.2 Unions
+
+Unions allow for a single block of memory to be interpreted in different ways and
+split into different sections.
+
+Size of union will always be the same as the largest member of union. This is to
+ensure that the memory block is large enough to represent all the members.
+
+Great care must be taken if we are to use this to store numbers, as thing such
+endianness can matter when running and compiling code for different platforms.
+Byte and bit ordering can matter in such circumstance unless we are explicitly
+not using the bytes as integers, floats and such.
+
+### 3.9.3 Data Alignment
+
+Alignment restriction refer to the performance requirement of structures and data
+to fit in memory blocks that are multiples of 8 bytes. This is done in order to allow
+easy access of byte blocks in memory. Each address point to a specific byte of memory
+however it is more efficient for an entire machine word to be copied over from memory
+and then used.
+
+Using a none multiple address would require multiple assembly instructions with
+the machine word retrieval and then bit manipulation in coax desire value out of
+the machine word is an inefficient method of retrieving data.
+
+A general rule of thumb is that objects of size K bytes must be stored in addresses
+that are themselves multiples of K.
+
+Alignment is enforced at compile time with the correct memory management allocations
+and alignment directives. As such some structures may include a gap of useless memory
+embedded inside the structure. For performance reasons, a compiler will waste memory
+as opposed to be unaligned.
