@@ -643,3 +643,98 @@ Alignment is enforced at compile time with the correct memory management allocat
 and alignment directives. As such some structures may include a gap of useless memory
 embedded inside the structure. For performance reasons, a compiler will waste memory
 as opposed to be unaligned.
+
+## 3.10 Combining Control and Data in Machine Level Programs
+
+This chapter relates to the implementation of the C language construct of the pointer.
+It examines what constitutes a buffer overflow and a few mitigations.
+
+### 3.10.1 Understanding Pointers
+
+Pointers point to specific bytes in memory locations. Can index arrays, structures
+and elementary types. A void pointer type is a raw memory address that can point
+to anything and the compiler will not complain about it. Even a zero address,
+more known as the null pointer. Casting pointer types will not change the underlying
+value.
+
+Pointers to functions can be generated and used to call said functions.
+
+### 3.10.2 Life In the Real World: Using GDB Debugger
+
+GDB debugger allows for looking at program state as it executes. It can set and
+stop execution at breakpoints. Inspect the values of variables, show values at
+addresses, and change variable values. CLI and GUI version are available.
+
+The book contains a table detailing the different commands and how to use them in
+detail.
+
+### 3.10.3 Out of Bound Memory References and Buffer Overflow
+
+The C language specification does not include bounds checking and so C implementation
+can have this. It is undefined behaviour. Buffer overflow occurs when data is written
+to array or buffer past the point of where the memory is allocated to buffer. Going
+over the bounds may overwrite other variables or important stack data. Such problems
+can only be identified by looking at the compiled instructions directly.
+
+The main malicious use of buffer flow is injection of malicious arbitrary instructions
+to be executed. The only thing needed is the correct return address.
+
+### 3.10.4 Twarting Buffer Overflow Attacks
+
+Compiles and operating systems have devised methods for mitigating buffer overflow
+overflow attacks. Several techniques are created to mitigate buffer overflow.
+
+While they do not complete prevent buffer overflow attack they do a good job at
+mitigating them.
+
+#### Stack Randomization
+
+Injection of code requires knowing the return address, location of different stack
+variables, and structure.
+Stack randomization We add padding to the start, end, and in-between stack
+variables. Not enough to waste space but enough to make it difficult to calculate
+the stack locations, and it needs to be random each time the program starts and executes.
+
+This is a form of `Address Space Layout Randomization` which is a list of techniques
+that twart arbitary code execution via moving different regions of memory around each
+time the program executes.
+
+This can be countered by adding `noop` instructions and guessing the correct location
+of memory this way, but is is brute force.
+
+#### Stack Corruption detection
+
+Another method is adding a canary value, at the end of each buffer in memory. If
+this value is writen over, at the end of the function termination the value is checked.
+If the value is changed then it terminates execution of program since the value is
+no longer the correct value.
+
+Modern compilers do this automatically.
+
+#### Limiting Executable Code Regions
+
+Another method is to restrict permission of memory regions: write, read and execute.
+Setting bit flags for memory regions prevents CPU from interpreting certain memory
+regions as code instructions.
+
+Certain JIT compilers must manipulate these bit flags in order to execute generated
+code.
+
+`Memory Protection` is forms of access by and for userland programs and kernel
+processes.
+
+### 3.10.4 Supporting Variable Stack Frames
+
+Some functions can use and support a variable stack size. When compiler cannot determine
+size of stack space on compile time, it requires referance to address of variables
+
+### 3.10.4 Supporting Variable Stack Frames
+
+Some functions can use and support a variable stack size. When compiler cannot determine
+size of stack space on compile time, it requires referance to address of variables.
+
+`Frame Pointer` is generally stored in `%rbp`, all local variable address are stored
+as ofssets from this address.
+
+`x86` always uses a frame pointer. `x86_64` only uses it for variable size stack
+variables. GCC can mix both concept.
