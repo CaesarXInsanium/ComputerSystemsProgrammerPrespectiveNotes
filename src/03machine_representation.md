@@ -738,3 +738,81 @@ as ofssets from this address.
 
 `x86` always uses a frame pointer. `x86_64` only uses it for variable size stack
 variables. GCC can mix both concept.
+
+## 3.11 Floating Point Code
+
+Floating point architecture refers to how CPU design and operations stores and
+processes floating point numbers. Most of the time they deal with IEEE standards
+for 32-bit and 64-bit floating point numbers. Functions can include,
+
+- storage and access
+- register use and practices
+- function argument conventions
+
+Floating point numbers are usually stored in dedicated registers speciallized for
+floating point numbers with seperate instructions to peform movement, comparison
+and arithmetic.
+
+SIMD: Single instruction Multiple DAta instructrions allow for efficient procesing
+of large chunks of data. Easy to chew to arithmetic operations on large swafts of
+data.
+
+AVX: Advanced Vertor Instructions. Allows for efficient CPU extensions to be used
+in order to deal with large operations.
+
+### 3.11.1 Floating Point Movement and Conversion Operations
+
+XMM registers are responsible for holding floating point data. Byte alignment
+is not strictly required but neccesary for optimization. Scalar movement instructions
+are used only for transporting between memory and  registers. Data is guranteed
+to be aligned when method is used.
+
+Intructions that can convert between representation levels are also available.
+Interleaving instructions also available for converting between Floating point
+standards.
+
+### 3.11.2 Floating Point Code in Procedures
+
+XMM registers can store and return floating point values from functions. A maximum
+of 8 arguments can be passed via registers with the rest to be passed using stack
+memory space. By default they are caller saved, but callee can overwrite the data.
+
+### 3.11.3 Floating Point Arithmetic Operations
+
+Unique instruction are used to implement simple arithmetic, with variations of
+these instructions available for single and double precision data.
+
+### 3.11.4 Defining and Using Floating Point Constants
+
+Intermediate values in floating point calculations require seperate memory allocation
+in the stack by the compiler. It must decide a place to store the value and use
+it when neccesary by the program.
+
+### 3.11.5 Using Bitwise Operations on Floating Point Code
+
+Bitwise operations act on XMM registers the same way as other registers, accross
+the entire register. They can also taget low order bytes to act upon with speciallized
+instructions.
+
+### 3.11.6 Floating Point Comparison Operations
+
+Comparison instructions exist for single and double precision floating point numbers.
+For all of them, the second argument must be inside an XMM register. Parity flag
+bit is set when NaN is the result of a floating point arithmetic operation. C defines
+a NaN result as a failure and it can be detected. NaN values can be checked for
+by trying all comparison methods, all would yield false.
+
+### 3.11.7 Observations on Floating Point Code
+
+Collection of registers for holding and operating on datas. There are more complexities
+than when dealing with integer data. C extensions exist in GCC that allow for easy
+parallizationg of processing scalar code.
+
+## 3.12 Summary
+
+A compiler may generate assembly from high level language. Looking into chapter
+12 will show how to locate data for different purposes. There is a minimal distinction
+between data types in assembly. Gaps in C spec can generate correct C code but generate
+error-prone assembly code.
+One way to deal with problems of working with machine code is to generate bytecode
+for a virtual machine.
